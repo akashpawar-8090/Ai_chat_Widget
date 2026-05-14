@@ -54,8 +54,8 @@ export default function Dashboard() {
 
   const scriptCode = bot
     ? `<script
-  src="http://localhost:3000/widget.js"
-  data-bot-id="${bot._id}"
+  src="https://ai-chat-widget-umber.vercel.app//widget.js"
+  data-bot-id="BOT_ID"
 ></script>`
     : "";
 

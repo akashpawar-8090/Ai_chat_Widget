@@ -24,7 +24,7 @@
   const iframe = document.createElement("iframe");
 
   iframe.src =
-    `https://yourdomain.com/embed/${botId}`;
+  `https://your-ai-chat.netlify.app/embed/${botId}`;
 
   iframe.style.position = "fixed";
   iframe.style.bottom = "90px";
