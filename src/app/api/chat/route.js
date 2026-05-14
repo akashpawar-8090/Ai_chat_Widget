@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 import connectDB from "@/lib/mongodb";
+
 import Bot from "@/models/Bot";
 
 const openai = new OpenAI({
@@ -14,14 +15,27 @@ const openai = new OpenAI({
 
 export async function POST(req) {
   try {
+    console.log("STEP 1");
+
     await connectDB();
+
+    console.log(
+      "STEP 2 DATABASE CONNECTED"
+    );
 
     const body = await req.json();
 
-    // FETCH BOT
+    console.log("STEP 3 BODY");
+
+    console.log(body);
+
     const bot = await Bot.findById(
       body.botId
     );
+
+    console.log("STEP 4 BOT");
+
+    console.log(bot);
 
     if (!bot) {
       return NextResponse.json(
@@ -34,7 +48,6 @@ export async function POST(req) {
       );
     }
 
-    // SEND SYSTEM PROMPT
     const completion =
       await openai.chat.completions.create({
         model:
@@ -57,17 +70,29 @@ export async function POST(req) {
         ],
       });
 
+    console.log(
+      "STEP 5 AI RESPONSE"
+    );
+
     return NextResponse.json({
       response:
         completion.choices[0].message
           .content,
     });
   } catch (error) {
+    console.log(
+      "FINAL ERROR"
+    );
+
     console.log(error);
 
     return NextResponse.json(
       {
-        error: error.message,
+        error:
+          "Server Error",
+
+        message:
+          error.message,
       },
       {
         status: 500,
